@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	// "fmt"
+	 "fmt"
 )
 
 func CalcInterestOnly(calcLoan CalculateloanBody) (loanRep LoanRepayments) {
@@ -57,7 +57,7 @@ func CalculateLoan(w http.ResponseWriter, r *http.Request) {
 	var res LoanRepayments
 	res = CalcInterestOnly(newPerson)
 
-	
+	fmt.Println("HI")
 
 	jresponse, _ := json.Marshal(&res) //convert CalculateloanBody type to string for sending back
 
