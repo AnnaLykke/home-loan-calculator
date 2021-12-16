@@ -12,7 +12,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	 "fmt"
+	"fmt"
+
 )
 
 func CalcInterestOnly(calcLoan CalculateloanBody) (loanRep LoanRepayments) {
@@ -21,13 +22,8 @@ func CalcInterestOnly(calcLoan CalculateloanBody) (loanRep LoanRepayments) {
 	interest := float64(calcLoan.InterestRate)
 	nYears := calcLoan.LoanTerm
 
-	//Calculating the different parameters for loan repayments - taken out of the LoanRepayments struct
-	//loanRep.MonthlyRepayments = principal * (interest / 12)
-	loanRep.TotalInterestPayable = int32(float64(principal) * (interest / 12) * float64(nYears) * 12)
-
-	//var i int32 //if we don't do this we can't use nYears since it is an int32
 	if calcLoan.LoanType == "interest" {
-	//creating the struct for
+	
 	for i := int32(0); i < nYears; i++ {
 		var loanRepaymentsAmountOwing LoanRepaymentsAmountOwing
 		loanRepaymentsAmountOwing.Principal = int32(principal)
@@ -46,21 +42,31 @@ func CalcInterestOnly(calcLoan CalculateloanBody) (loanRep LoanRepayments) {
 func CalculateLoan(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	// j,_:=json.Marshal("hello")
 
-	//     w.Write(j)
 
 	requestBodyBytes, _ := ioutil.ReadAll(r.Body)
 	var newPerson CalculateloanBody
-	json.Unmarshal(requestBodyBytes, &newPerson) //
+	err1 := json.Unmarshal(requestBodyBytes, &newPerson) //
 
-	var res LoanRepayments
-	res = CalcInterestOnly(newPerson)
+	//Checking the error
+	if err1 != nil {
+		fmt.Println("Error")
+		return
+	}
 
-	fmt.Println("HI")
+	res := CalcInterestOnly(newPerson)
 
 	jresponse, _ := json.Marshal(&res) //convert CalculateloanBody type to string for sending back
 
-	w.Write(jresponse)
+	err2,_ := w.Write(jresponse)
+
+	//Checking the error
+	if err2 != nil {
+		fmt.Println("Error")
+		return
+	}
+
+	fmt.Println(err1)
+	fmt.Println(err2)
 
 }
