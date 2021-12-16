@@ -49,7 +49,7 @@ func CalculateLoan(w http.ResponseWriter, r *http.Request) {
 	err1 := json.Unmarshal(requestBodyBytes, &newPerson) //
 
 	//Checking the error
-	if err1 != nil { //nolint
+	if err1 != nil { 
 		fmt.Println("Error")
 		return 
 	}
@@ -58,10 +58,10 @@ func CalculateLoan(w http.ResponseWriter, r *http.Request) {
 
 	jresponse, _ := json.Marshal(&res) //convert CalculateloanBody type to string for sending back
 
-	err2,_ := w.Write(jresponse)
+	_,err2 := w.Write(jresponse)
 
 	//Checking the error
-	if err2 != nil { //nolint
+	if err2 != nil { 
 		fmt.Println("Error")
 		return
 	}
