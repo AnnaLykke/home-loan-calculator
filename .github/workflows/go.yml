@@ -23,8 +23,15 @@ jobs:
       with: 
         args: --verbose
       
-    - name: Build
-      run: go build -v ./...
-
     - name: Test
       run: go test -v ./...
+      
+    - name: Build
+      run: go build -v ./...
+      
+    - name: Deploy
+      uses: google-github-actions/deploy-appengine@v0.4.0
+      with:     
+        deliverables: ./app.yaml
+        project_id: sustained-opus-332900
+        credentials: '${{ secrets.GCP_SA_KEY }}'
