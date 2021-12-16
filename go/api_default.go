@@ -49,9 +49,9 @@ func CalculateLoan(w http.ResponseWriter, r *http.Request) {
 	err1 := json.Unmarshal(requestBodyBytes, &newPerson) //
 
 	//Checking the error
-	if err1 != nil {
+	if err1 != nil { //nolint
 		fmt.Println("Error")
-		return
+		return 
 	}
 
 	res := CalcInterestOnly(newPerson)
@@ -61,7 +61,7 @@ func CalculateLoan(w http.ResponseWriter, r *http.Request) {
 	err2,_ := w.Write(jresponse)
 
 	//Checking the error
-	if err2 != nil {
+	if err2 != nil { //nolint
 		fmt.Println("Error")
 		return
 	}
