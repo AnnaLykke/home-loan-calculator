@@ -20,7 +20,9 @@ jobs:
         
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v2
-
+      with: 
+        args: --verbose
+      
     - name: Build
       run: go build -v ./...
 
